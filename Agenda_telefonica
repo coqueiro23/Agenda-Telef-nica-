@@ -1,0 +1,92 @@
+
+def limpar() :
+    print ("\n" * 100)
+
+
+print("    Bem vindo!!\n Essa é sua AGENDA TELEFÔNICA.     Criada por  André\n\n")
+
+novo_contato = {}  #Dicionário para guardar nomes e telefones
+loop = True
+encerra = True
+outro = 's'
+cont = False
+
+# ADICIONAR NOVO CONTATO
+
+while loop == True:
+
+    while encerra == True:
+        operacao = input(
+            "\n#########  MENU INICIAL  #########    \n\n- (1) ADICIONAR NOVO CONTATO: \n- (2) BUSCAR CONTATO: \n- (3)  EXCLUIR NUMERO:  \n- (4) EXIBIR TODA AGENDA: \n- (5) SAIR DO PROGRAMA\n")
+        outro = 's'
+
+        #  OPERAÇÃO 1 - ADICIONAR NOVO CONTATO
+        if int(operacao) == 1:
+            while outro == 's' or outro == 'S':
+                contato = input('\nDigite o nome do contato: \n')
+                novo_contato[contato] = input(f'\nDigite o telefone de {contato}: ')
+                outro = input("\nDeseja gravar outro contato? S / N ")
+                # RETORNAR AO MENU PRINCIPAL
+                while outro != 's' and outro != 'S' and outro != 'n' and outro != 'N':
+                    outro = input('\nOpção inválida! \n Deseja gravar outro contato? S / N ')
+                if outro == 'n' or outro == 'N':
+                    print('\nContato(s) salvo(s) com sucesso!!\n')
+                    operacao = None  # AQUI RETORNA AO MENU INICIAL COM AS OPÇÕES!
+
+
+        #   OPERAÇÃO 2 - BUSCAR CONTATO
+        elif int(operacao) == 2:
+            outro = 's'
+            while outro == 's' or outro == 'S':
+                localizar = input("Digite o NOME do contato ou uma PALAVRA CHAVE para buscar: ")
+                localizarLower = localizar.lower()
+                for nome in novo_contato:
+                    if localizarLower in nome.lower():
+                        print(f"\n {nome}, Telefone: {novo_contato[nome]}")
+                        cont = True
+                if cont == False:
+                    print("\n NENHUM CONTATO LOCALIZADO!!\n")
+
+                # RETORNAR AO MENU PRINCIPAL
+                cont = False
+                outro = input("\nDeseja realizar outra busca??   S / N \n")
+                while outro != 's' and outro != 'S' and outro != 'n' and outro != 'N':
+                    outro = input('\nOpção inválida! \n Deseja realizar outra busca? S / N ')
+                if outro == 'n' or outro == 'N':
+                    operacao = None
+
+
+        #   OPERAÇÃO 3- EXCLUIR NUMERO
+        elif int(operacao) == 3:
+            conta = 0
+            localizar = input("Digite o NOME do contato ou uma PALAVRA CHAVE para buscar: ")
+            localizarLower = localizar.lower()
+            apaga_contato = []
+            for nome in novo_contato:
+                if localizarLower in nome.lower():
+                    print(f"\n  {nome}, Telefone: {novo_contato[nome]}        **PRESSIONE {conta + 1} **")
+                    apaga_contato.append(nome)
+                    conta += 1
+
+            numero_exclusao = input(' \nDIGITE O NUMERO DA EXCLUSÃO:  ')
+
+            confirma_exclusao = input(f'\nConfirmar Exclusão de:  {apaga_contato[int(numero_exclusao) - 1]}  (S / N)\n')
+            if confirma_exclusao == 's' or confirma_exclusao == 'S':
+                novo_contato.pop(apaga_contato[int(numero_exclusao) - 1])
+                print('\nREMOÇÃO REALIZADA COM SUCESSO!!\n')
+
+        #   OPERAÇÃO 4- EXIBIR TODA AGENDA
+
+        elif int(operacao) == 4:
+            conta = 1
+            print('\n########   VISUALIZAÇÃO DE TODA A AGENDA   ########\n')
+            for nome in novo_contato:
+                print(f"\n {conta} - {nome}, Telefone: {novo_contato[nome]}")
+                conta +=1
+
+        #   OPERAÇÃO 5- SAIR DO PROGRAMA
+
+        elif int(operacao) == 5:
+            print('\n######### FIM DO PROGRAMA ##########')
+            encerra = False
+            loop = False
